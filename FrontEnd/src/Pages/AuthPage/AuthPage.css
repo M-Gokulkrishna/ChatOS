@@ -1,0 +1,83 @@
+.Auth-Page {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-around;
+
+    button,
+    input[type="submit"] {
+        cursor: pointer;
+    }
+
+    button,
+    input[type="submit"]:active {
+        transform: scale(0.96);
+    }
+}
+
+.Auth-Container {
+    width: 50%;
+    height: 100%;
+    transition: transform 0.5s linear;
+}
+
+.Auth-Describe-Container {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    transition: transform 0.5s linear;
+
+    .Auth-Describer {
+        margin: auto;
+        color: aliceblue;
+        text-align: center;
+
+        h3 {
+            padding: 6px 20px;
+            border-radius: 6px;
+            letter-spacing: 0.4px;
+            backdrop-filter: blur(10px);
+            border-left: 3px solid springgreen;
+            border-right: 3px solid springgreen;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+        }
+
+        button {
+            border: none;
+            height: 32px;
+            width: 140px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 40px;
+            background-color: springgreen;
+
+        }
+
+        button:active {
+            transform: scale(0.92);
+        }
+    }
+}
+
+@media (width<=700px) {
+
+    .Auth-Page {
+        flex-direction: column-reverse;
+    }
+
+    .Auth-Container {
+        width: 100%;
+        height: 62%;
+    }
+
+    .Auth-Describe-Container {
+        width: 100%;
+        height: 38%;
+    }
+}

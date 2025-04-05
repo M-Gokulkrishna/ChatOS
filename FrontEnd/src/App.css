@@ -1,0 +1,26 @@
+* {
+  position: relative;
+  user-select: none;
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.App {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-image: repeating-radial-gradient(circle at center center, transparent 0px, transparent 11px, rgba(255, 255, 255, 0.04) 11px, rgba(255, 255, 255, 0.04) 19px, transparent 19px, transparent 29px, rgba(255, 255, 255, 0.04) 29px, rgba(255, 255, 255, 0.04) 33px), repeating-radial-gradient(circle at center center, rgb(10, 10, 40) 0px, rgb(10, 10, 40) 5px, rgb(10, 10, 40) 5px, rgb(10, 10, 40) 17px, rgb(10, 10, 40) 17px, rgb(10, 10, 40) 30px, rgb(10, 10, 40) 30px, rgb(10, 10, 40) 43px, rgb(10, 10, 40) 43px, rgb(10, 10, 40) 45px, rgb(10, 10, 40) 45px, rgb(10, 10, 40) 47px);
+  background-size: 53px 53px;
+}

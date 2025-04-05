@@ -1,0 +1,52 @@
+.UtilityNavBar-Container {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    border-radius: 12px 0 0 12px;
+    background-color: rgba(240, 248, 255, 0.9);
+
+    span:active,
+    div:active {
+        transform: scale(0.96);
+    }
+
+    span {
+        position: absolute;
+        cursor: pointer;
+        display: flex;
+        z-index: 1;
+        left: 6px;
+        top: 6px;
+        padding: 2px;
+        font-size: 24px;
+        border-radius: 5px;
+        background-color: springgreen;
+    }
+
+    section{
+        display: grid;
+        gap: 3px;
+        padding: 4px;
+        grid-template-columns: repeat(2, 1fr);
+        
+        div {
+            cursor: pointer;
+            display: flex;
+            height: 100px;
+            row-gap: 12px;
+            color: snow;
+            font-size: 22px;
+            border-radius: 8px;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            background-color: rgba(10, 10, 50, 0.95);
+
+            b{
+                font-size: 13px;
+                letter-spacing: 0.6px;
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+.Splash-Screen-Page {
+    position: relative;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    background-image: repeating-linear-gradient(45deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(0deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(135deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(90deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), linear-gradient(90deg, rgb(10, 10, 40), rgb(40, 30, 50));
+
+    .SplashScreen-HoneyCombStyled-Component {
+        position: absolute;
+        display: flex;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(90deg);
+        /* Variables */
+        --HoneyComb-BgColor: rgba(240, 248, 255, 0.5);
+        --HoneyCombX-Size: 1.8;
+        --HoneyCombY-Size: 1.8;
+    }
+
+    ul {
+        position: absolute;
+        z-index: 96;
+        width: 100%;
+        height: 100%;
+        list-style: none;
+
+        .Splash-Screen-Bubbles {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            transition: width 1s, height 1s;
+            transform: translate(-50%, -50%);
+            top: calc(var(--Bubbles-OffsetY));
+            left: calc(var(--Bubbles-OffsetX));
+            background-color: var(--Bg-Color);
+            animation: SplashScreeen-Bubble-Animation1 0.45s linear calc(var(--Animation-Delay)) 1 forwards,
+                SplashScreeen-Bubble-Animation2 0.5s linear 3.5s 1 forwards;
+        }
+    }
+
+    main {
+        position: absolute;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        .Site-Name {
+            display: flex;
+            z-index: 99;
+            width: 140px;
+            height: 140px;
+            font-size: 22px;
+            border-radius: 50%;
+            color: aliceblue;
+            letter-spacing: 0.9px;
+            border: 5px solid rgba(10, 10, 50, 0.2);
+            background-color: rgba(100, 80, 240, 0.5);
+            box-shadow: 0 0 100px rgba(255, 250, 250, 0.8),
+                0 0 100px rgba(255, 250, 250, 0.4);
+
+            span {
+                margin: auto;
+            }
+        }
+
+        .Welcome-Greeting {
+            position: absolute;
+            bottom: 6%;
+            z-index: 100;
+            color: snow;
+            margin-left: 4px;
+            letter-spacing: 1px;
+
+            h3 {
+                opacity: 0;
+                font-size: 21px;
+                transform: translateY(100px);
+                animation: slide-to-top 0.4s linear 4s forwards;
+            }
+
+            p {
+                opacity: 0;
+                font-size: 15px;
+                margin-top: 6px;
+                transform: translateY(100px);
+                animation: slide-to-top 0.6s linear 4.3s forwards;
+            }
+
+        }
+    }
+}
+
+@keyframes SplashScreeen-Bubble-Animation1 {
+    100% {
+        top: 50%;
+        left: 50%;
+    }
+}
+
+@keyframes SplashScreeen-Bubble-Animation2 {
+    100% {
+        top: 50%;
+        left: 50%;
+        width: calc(200px * var(--Bubble-Scale));
+        height: calc(200px * var(--Bubble-Scale));
+    }
+}
+
+@keyframes slide-to-top {
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

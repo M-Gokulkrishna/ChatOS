@@ -1,0 +1,52 @@
+:root {
+    --HoneyComb-BgColor: #0000005b;
+    --HoneyCombX-Size: 1.14;
+    --HoneyCombY-Size: 1.14;
+}
+
+.HoneyComb-Parent-Container {
+    position: absolute;
+    display: flex;
+    z-index: -1;
+    height: 85%;
+    row-gap: 2px;
+    min-width: 85%;
+    flex-direction: column;
+    transform: scaleX(var(--HoneyCombX-Size)) scaleY(var(--HoneyCombY-Size));
+
+    div {
+        display: flex;
+        gap: 6px;
+        width: 100%;
+        height: 14.3%;
+        align-items: center;
+        justify-content: center;
+
+        .HoneyComb {
+            width: 46px;
+            height: 52px;
+            opacity: 0.1;
+            margin-top: 90px;
+            transition: all 1s;
+            transform: scale(0.3);
+            background-color: var(--HoneyComb-BgColor);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: HoneyComb-Animation 2.8s linear var(--Animation-Delay) infinite both;
+        }
+    }
+
+    div:not(:nth-child(1)) {
+
+        .HoneyComb {
+            margin-bottom: calc(35px * var(--Offset));
+        }
+
+    }
+}
+
+@keyframes HoneyComb-Animation {
+    50% {
+        opacity: 0.8;
+        transform: scale(0.8);
+    }
+}
