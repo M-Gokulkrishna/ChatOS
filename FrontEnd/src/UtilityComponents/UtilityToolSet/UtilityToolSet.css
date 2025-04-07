@@ -1,15 +1,12 @@
 .UtilityNavBar-Container {
+    position: absolute;
     display: flex;
-    width: 100%;
+    z-index: 99;
+    border-radius: 12px;
     height: fit-content;
+    width: min(90%, 300px);
     flex-direction: column;
-    border-radius: 12px 0 0 12px;
     background-color: rgba(240, 248, 255, 0.9);
-
-    span:active,
-    div:active {
-        transform: scale(0.96);
-    }
 
     span {
         position: absolute;
@@ -24,12 +21,17 @@
         background-color: springgreen;
     }
 
-    section{
+    span:active {
+        transform: scale(0.96);
+    }
+
+
+    section {
         display: grid;
         gap: 3px;
         padding: 4px;
         grid-template-columns: repeat(2, 1fr);
-        
+
         div {
             cursor: pointer;
             display: flex;
@@ -43,10 +45,14 @@
             justify-content: center;
             background-color: rgba(10, 10, 50, 0.95);
 
-            b{
+            b {
                 font-size: 13px;
                 letter-spacing: 0.6px;
             }
+        }
+
+        div:active {
+            transform: scale(0.96);
         }
     }
 }

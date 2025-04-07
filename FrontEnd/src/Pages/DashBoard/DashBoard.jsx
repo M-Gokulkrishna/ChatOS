@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
+import UtilityToolSet from '../../UtilityComponents/UtilityToolSet/UtilityToolSet';
 import ProfilesComponent from '../../Components/ProfilesComponent/ProfilesComponent';
 import AfterEditProfile from '../../Components/EditProfileComponent/AfterEditProfile';
 import AddFriendComponent from '../../Components/AddFriendComponent/AddFriendComponent';
@@ -20,6 +21,7 @@ const socketIO = io("http://localhost:4000", {
 // 
 const DashBoard = ({ PageWidth, VerifyToken }) => {
     const NavigateTo = useNavigate();
+    const [UtilityTool, setUtilityTool] = useState("");
     const [NavBarClick, setNavBarClick] = useState(false);
     const [SelectedProfile, setSelectedProfile] = useState({});
     const [FilteredProfiles, setFilteredProfiles] = useState({});
@@ -63,7 +65,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
     // handling search Input to filter profiles
     function handleSearchInput(e) {
         setFilteredProfiles(
-            userFriendsProfileDetails.filter((data) => 
+            userFriendsProfileDetails.filter((data) =>
                 String(data.profileName).includes(e.target.value.toLowerCase())
             )
         );
@@ -95,6 +97,10 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
             {
                 EditProfileTabClick &&
                 <AfterEditProfile setEditProfileTabClick={setEditProfileTabClick} setConfirmationBoxState={setConfirmationBoxState} getUserProfileDetails={getUserProfileDetails} userProfileDetails={userProfileDetails} />
+            }
+            {
+                UtilityTool && UtilityTool !== "Disable" &&
+                <UtilityToolSet UtilityTool={UtilityTool} setUtilityTool={setUtilityTool} />
             }
             {
                 ConfirmationBoxState.ConfirmationType &&
@@ -140,7 +146,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
                     </span>
                     <div>
                         <b onClick={() => { setEditProfileTabClick(true); setNavBarClick(false) }}>Profile</b>
-                        <b>Utilities</b>
+                        <b onClick={() => {setUtilityTool("Enable"); setNavBarClick(false)}}>Utilities</b>
                         <b>Settings</b>
                         <b onClick={() => { setConfirmationBoxState({ ConfimationText: "Are you sure to Logout!", ConfirmationType: "Logout", Button1Text: "Ok", Button2Text: "Cancel" }); setNavBarClick(false); }}>Logout</b>
                     </div>

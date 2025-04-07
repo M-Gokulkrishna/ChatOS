@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useRef, useState } from 'react';
-import UtilityNavbar from '../UtilityNavbar/UtilityNavbar';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
 import { FaAlignRight, FaArrowLeft, FaPaperclip, FaPaperPlane, FaSearch } from 'react-icons/fa';
 // 
@@ -15,11 +14,10 @@ function FormatMessageBucket(MessageBucket) {
     });
 }
 // 
-const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile, setSelectedProfile }) => {
+const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile, setSelectedProfile, setUtilityTool }) => {
     const MessageInputRef = useRef(null);
     const ChattingContainerRef = useRef(null);
     const MessageSelectEventRef = useRef(null);
-    const [UtilityNavbarFlag, setUtilityNavbarFlag] = useState(false);
     const [userConversations, setUserConversations] = useState([]);
     const [deleteMessageFlag, setDeleteMessageFlag] = useState({
         Flag: false,
@@ -162,14 +160,11 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile
                     {/* <FaRegHeart /> */}
                     {/* <FaHeart /> */}
                     {/* </span> */}
-                    <span className='Utility-Btn' onClick={() => setUtilityNavbarFlag(true)}>
+                    <span className='Utility-Btn' onClick={() => setUtilityTool("Enable")}>
                         <FaAlignRight />
                     </span>
                 </div>
             </header>
-            <aside style={(UtilityNavbarFlag) ? { left: "calc(100% - 300px)" } : { left: "100%" }}>
-                <UtilityNavbar setUtilityNavbarFlag={setUtilityNavbarFlag}/>
-            </aside>
             <main ref={ChattingContainerRef}>
                 <strong>Point-to-Point Encrypted</strong>
                 {
