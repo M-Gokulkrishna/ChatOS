@@ -1,17 +1,22 @@
-import React from 'react';
+
 import './UtilityToolSet.css';
-import Calculator from '../Calculator/Calculator';
-import { FaBorderStyle, FaCalculator, FaCube, FaDollarSign, FaEdit, FaRuler, FaThermometerHalf, FaTimes, FaWeight } from 'react-icons/fa';
+import React, { useState } from 'react';
 import NotesTool from '../Notes/NotesTool';
+import Calculator from '../Calculator/Calculator';
+import { useOutletContext } from 'react-router-dom';
+import { FaBorderStyle, FaCalculator, FaCube, FaDollarSign, FaEdit, FaRuler, FaThermometerHalf, FaTimes, FaWeight } from 'react-icons/fa';
+
 // 
-const UtilityNavbar = React.memo(({ UtilityTool, setUtilityTool }) => {
+const UtilityNavbar = React.memo(() => {
+    const { NavigateTo } = useOutletContext();
+    const [UtilityTool, setUtilityTool] = useState("");
     return (
-        <nav className='UtilityNavBar-Container'>
-            <span onClick={() => setUtilityTool("Disable")}>
+        <div className='UtilityNavBar-Container'>
+            <span onClick={() => NavigateTo("/DashBoard")}>
                 <FaTimes />
             </span>
             {
-                UtilityTool === "Enable" &&
+                !UtilityTool &&
                 <section>
                     <div onClick={() => setUtilityTool("Calculator")}>
                         <FaCalculator />
@@ -72,10 +77,10 @@ const UtilityNavbar = React.memo(({ UtilityTool, setUtilityTool }) => {
                 <NotesTool />
             }
             {
-                UtilityTool === "Notes" &&
+                UtilityTool === "Currency" &&
                 <NotesTool />
             }
-        </nav>
+        </div>
     )
 });
 // 

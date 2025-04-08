@@ -3,21 +3,22 @@ import './AfterEditProfile.css';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useOutletContext } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { FaBook, FaEdit, FaTimes, FaUser } from 'react-icons/fa';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
 import HoneyCombStyledComponent from '../../UtilityComponents/HoneyCombStyledComponent';
 // 
-const AfterEditProfile = ({ setEditProfileTabClick, setConfirmationBoxState, getUserProfileDetails, userProfileDetails }) => {
+const AfterEditProfile = () => {
     const userSessionState = useSelector(state => state.userSessionState);
     const [ImageFileUploaderState, setImageFileUploaderState] = useState(false);
+    const { NavigateTo, setConfirmationBoxState, getUserProfileDetails, userProfileDetails } = useOutletContext();
     const [ProfileDetailState, setProfileDetailState] = useState(
         {
             profileName: userProfileDetails.profileName,
             profileDescription: userProfileDetails.profileDescription
         }
-    );
-    // Api Request to Profile Image Upload
+    );// Api Request to Profile Image Upload
     async function handleProfileImageUpload(e) {
         const formData = new FormData();
         formData.append("ProfileImage", e.target.files[0]);
@@ -58,7 +59,7 @@ const AfterEditProfile = ({ setEditProfileTabClick, setConfirmationBoxState, get
         onSuccess: (ProfileDetailsUpdateResponse) => {
             if (ProfileDetailsUpdateResponse?.data?.RequestStatus === "Profile Details Updated Successfully!") {
                 getUserProfileDetails();
-                setEditProfileTabClick(false);
+                NavigateTo("/DashBoard");
             }
         },
         onError: (ProfileDetailsUpdateErrorResponse) => {
@@ -82,7 +83,7 @@ const AfterEditProfile = ({ setEditProfileTabClick, setConfirmationBoxState, get
     return (
         <div className='AfterEdit-Profile-Container'>
             <section>
-                <span onClick={() => setEditProfileTabClick(false)}>
+                <span onClick={() => NavigateTo("/DashBoard")}>
                     <FaTimes />
                 </span>
                 <div>

@@ -139,12 +139,13 @@ userAuthRouter.post("/verifyEmail", async (request, response) => {
 });
 // Verify Verification Code for Password Resetting
 userAuthRouter.post("/verifyCode", async (request, response) => {
-    const { userID, verificationCode } = request.body;
+    const { userEmail, verificationCode } = request.body;
     // Validation
-    if (!verificationCode || verificationCode.length < 6) return response.status(400).json({ RequestStatus: "Invalid Verification Code!" });
+    if (!userEmail) return response.status(400).json({ RequestStatus: "userEmail is Required!" });
+    else if (!verificationCode || verificationCode.length < 6) return response.status(400).json({ RequestStatus: "Invalid Verification Code!" });
     // 
     try {
-        const getUser = await userCredentialModel.findOne({ userID, verificationCode });
+        const getUser = JSON.parse(JSON.stringify(await userCredentialModel.findOne({ userEmail, verificationCode })));
         if (!getUser) {
             return response.status(404).json({ RequestStatus: "User Not Exist!" });
         }
@@ -152,6 +153,7 @@ userAuthRouter.post("/verifyCode", async (request, response) => {
             return response.status(400).json({ RequestStatus: "Verification code Expired!" });
         }
         else if (getUser._id && getUser.verificationCode === verificationCode) {
+            await userCredentialModel.updateOne({ userEmail }, { $set: { verificationCode: 0 } });
             return response.status(200).json({ RequestStatus: "Code Verified Successfully!" });
         }
     } catch (error) {
@@ -162,18 +164,18 @@ userAuthRouter.post("/verifyCode", async (request, response) => {
 });
 // Password Resetting
 userAuthRouter.post("/passwordReset", async (request, response) => {
-    const { userID, NewPassword } = request.body;
+    const { userEmail, NewPassword } = request.body;
     // Validation
-    if (!userID) return response.status(400).json({ RequestStatus: "Invalid userID!" });
+    if (!userEmail) return response.status(400).json({ RequestStatus: "userEmail is Required!" });
     if (!NewPassword) return response.status(400).json({ RequestStatus: "NewPassword is Required!" });
     // 
     try {
-        if (!await userCredentialModel.findOne({ _id: userID })) {
+        if (!await userCredentialModel.findOne({ userEmail })) {
             return response.status(404).json({ RequestStatus: "User Not Exist!" });
         }
         else {
             const HashedPassword = await bcrypt.hash(NewPassword, 10);
-            await userCredentialModel.updateOne({ _id: userID }, { userPassword: HashedPassword });
+            await userCredentialModel.updateOne({ userEmail }, { userPassword: HashedPassword });
             return response.status(200).json({ RequestStatus: "New Password updated!" });
         }
     } catch (error) {

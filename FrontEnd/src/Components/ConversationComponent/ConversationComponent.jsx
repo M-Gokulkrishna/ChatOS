@@ -14,7 +14,7 @@ function FormatMessageBucket(MessageBucket) {
     });
 }
 // 
-const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile, setSelectedProfile, setUtilityTool }) => {
+const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, SelectedProfile, setSelectedProfile }) => {
     const MessageInputRef = useRef(null);
     const ChattingContainerRef = useRef(null);
     const MessageSelectEventRef = useRef(null);
@@ -160,7 +160,7 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile
                     {/* <FaRegHeart /> */}
                     {/* <FaHeart /> */}
                     {/* </span> */}
-                    <span className='Utility-Btn' onClick={() => setUtilityTool("Enable")}>
+                    <span className='Utility-Btn' onClick={() => NavigateTo("UtilityToolSet")}>
                         <FaAlignRight />
                     </span>
                 </div>
@@ -194,7 +194,7 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, SelectedProfile
                     <span style={{ left: "25px" }}>
                         <FaSearch />
                     </span>
-                    <textarea name="MessageInput" id="MessageInput" ref={MessageInputRef} placeholder='Message'></textarea>
+                    <textarea name="MessageInput" id="MessageInput" ref={MessageInputRef} placeholder='Message' autoFocus></textarea>
                     <span style={{ right: "25px", marginTop: "3px" }}>
                         <FaPaperclip />
                     </span>

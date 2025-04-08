@@ -1,7 +1,10 @@
 import axios from 'axios';
+import './PasswordResetStyles.css';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
+import { FaLock } from 'react-icons/fa';
 import { useMutation } from '@tanstack/react-query';
+import { useOutletContext } from 'react-router-dom';
 // PasswordReset InitialState
 const PasswordReset_Initial_State = {
     userPassword: "",
@@ -11,21 +14,24 @@ const PasswordReset_Initial_State = {
 const PassWordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
 // Component
 const PasswordResetComponent = () => {
-    const [PasswordResetDetails, setPasswordResetDetails] = useState(PasswordReset_Initial_State);
     const [InputErrorResponse, setInputErrorResponse] = useState("");
+    const { NavigateTo, EmailVerifyDetails, setEmailVerifyDetails } = useOutletContext();
+    const [PasswordResetDetails, setPasswordResetDetails] = useState(PasswordReset_Initial_State);
     // Api Request for PasswordReset User
     const { mutate: fetchPasswordReset } = useMutation({
         mutationFn: async () => {
-            const data = await axios.post("http://localhost:8080/api/auth/passwordReset", { userPassword: PasswordResetDetails.userPassword });
+            const data = await axios.post("http://localhost:8080/api/auth/passwordReset", { userEmail: EmailVerifyDetails.userEmail, NewPassword: PasswordResetDetails.userPassword }, { withCredentials: true });
             return data;
         },
         onSuccess: (PasswordResetResponse) => {
-            if (PasswordResetResponse?.data?.RequestStatus === "Password Reset Successfully!") {
-                // 
+            if (PasswordResetResponse?.data?.RequestStatus === "New Password updated!") {
+                NavigateTo("Login");
+                setEmailVerifyDetails({});
             }
         },
         onError: (PasswordResetErrorResponse) => {
             if (PasswordResetErrorResponse?.response?.data?.RequestStatus) {
+                NavigateTo("VerifyEmail");
                 toast.error(PasswordResetErrorResponse?.response?.data?.RequestStatus);
             }
         }
@@ -60,7 +66,7 @@ const PasswordResetComponent = () => {
             return;
         }
         // form Submission, Calling PasswordReset Mutate function
-        // fetchPasswordReset();
+        fetchPasswordReset();
     }
     // handling PasswordReset Inputs
     function handlePasswordResetInputs(e) {
@@ -69,14 +75,24 @@ const PasswordResetComponent = () => {
     // 
     return (
         <div className='PasswordReset-Container'>
+            <div className="Auth-Head">
+                <h3>Verification</h3>
+            </div>
+            <button className='Back-to-Previous-Form' onClick={() => NavigateTo("VerifyEmail")}>Back</button>
             <form onSubmit={handlePasswordResetSubmission}>
                 <span>
+                    <b>
+                        <FaLock />
+                    </b>
+                    <input type="password" name="userPassword" id="PasswordReset-NewPassword" placeholder='' autoComplete='off' onChange={handlePasswordResetInputs} style={(InputErrorResponse === "PasswordReset-UserPassword") ? { border: "2.3px solid tomato" } : {}} autoFocus/>
                     <label htmlFor="PasswordReset-NewPassword">Enter Password</label>
-                    <input type="text" name="userPassword" id="PasswordReset-NewPassword" placeholder='' autoComplete='off' onChange={handlePasswordResetInputs} style={(InputErrorResponse === "PasswordReset-UserPassword") ? { border: "2.3px solid tomato" } : {}} />
                 </span>
                 <span>
-                    <label htmlFor="PasswordReset-ConfirmPassword">Enter Password</label>
-                    <input type="text" name="ConfirmPassword" id="PasswordReset-ConfirmPassword" placeholder='' autoComplete='off' onChange={handlePasswordResetInputs} style={(InputErrorResponse === "PasswordReset-ConfirmPassword") ? { border: "2.3px solid tomato" } : {}} />
+                    <b>
+                        <FaLock />
+                    </b>
+                    <input type="password" name="ConfirmPassword" id="PasswordReset-ConfirmPassword" placeholder='' autoComplete='off' onChange={handlePasswordResetInputs} style={(InputErrorResponse === "PasswordReset-ConfirmPassword") ? { border: "2.3px solid tomato" } : {}} />
+                    <label htmlFor="PasswordReset-ConfirmPassword">Confirm Password</label>
                 </span>
                 <input type="submit" value="Update" />
             </form>

@@ -16,7 +16,7 @@ const splashScreen = () => {
     }
     else if (userSessionState.userSessionStatus === "Access Denied!") {
       setTimeout(() => {
-        NavigateTo("/AuthPage");
+        NavigateTo("/AuthPage/Login");
       }, 6000);
     }
   }, [userSessionState]);

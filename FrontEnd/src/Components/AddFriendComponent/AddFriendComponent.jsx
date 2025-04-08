@@ -3,14 +3,16 @@ import './AddFriendComponent.css';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import React, { useRef, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { FaPlus, FaSearch, FaTimes, FaTrash } from 'react-icons/fa';
 import HoneyCombStyledComponent from '../../UtilityComponents/HoneyCombStyledComponent';
 // 
 const EmailRegex = /^[\w.%+-]{4,}@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 // 
-const AddFriendComponent = ({ setAddFriendTabClick, getUserProfileDetails }) => {
+const AddFriendComponent = () => {
     const FriendEmailIDRef = useRef();
     const [FriendsList, setFriendsList] = useState([]);
+    const { NavigateTo, getUserProfileDetails } = useOutletContext();
     const userSessionState = useSelector(state => state.userSessionState.userSessionData);
     // Add New Friend's Email-ID to FriendsList
     function handleAddFriendEmailID() {
@@ -42,7 +44,7 @@ const AddFriendComponent = ({ setAddFriendTabClick, getUserProfileDetails }) => 
             const AddFriendsResponse = await axios.post("http://localhost:8080/api/userDetail/AddNewFriends", { userID: userSessionState.userID, FriendsList }, { withCredentials: true });
             if (AddFriendsResponse?.data?.RequestStatus === "New Friends Added Successfully!") {
                 getUserProfileDetails();
-                setAddFriendTabClick(false);
+                NavigateTo("/DashBoard");
             }
         } catch (error) {
             if (error) {
@@ -54,7 +56,7 @@ const AddFriendComponent = ({ setAddFriendTabClick, getUserProfileDetails }) => 
     return (
         <div className='AddFriend-Container'>
             <header>
-                <span onClick={() => setAddFriendTabClick(false)}>
+                <span onClick={() => NavigateTo("/DashBoard")}>
                     <FaTimes />
                 </span>
                 <div>

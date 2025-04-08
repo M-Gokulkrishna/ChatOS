@@ -2,10 +2,12 @@ import axios from 'axios';
 import './SignupLoginStyles.css';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useOutletContext } from 'react-router-dom';
 import { setUserSessionState, setUserSessionStatus } from '../../ReduxUtilities/userSessionSlice';
+
 // Login InitialState
 const Login_Initial_State = {
     userEmail: "",
@@ -15,7 +17,8 @@ const Login_Initial_State = {
 const EmailRegex = /^[\w.%+-]{4,}@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const PassWordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
 // Component
-const LoginComponent = ({ setChangeForm, NavigateTo }) => {
+const LoginComponent = () => {
+    const { NavigateTo } = useOutletContext();
     const dispatchUserSessionState = useDispatch();
     const [InputErrorResponse, setInputErrorResponse] = useState("");
     const [LoginDetails, setLoginDetails] = useState(Login_Initial_State);
@@ -81,7 +84,7 @@ const LoginComponent = ({ setChangeForm, NavigateTo }) => {
                     <b>
                         <FaEnvelope />
                     </b>
-                    <input type="text" name="userEmail" id="Login-UserEmail" placeholder='' autoComplete='off' onChange={handleLoginInputs} style={(InputErrorResponse === "Login-UserEmail") ? { border: "2.3px solid tomato" } : {}} />
+                    <input type="text" name="userEmail" id="Login-UserEmail" placeholder='' autoComplete='off' onChange={handleLoginInputs} style={(InputErrorResponse === "Login-UserEmail") ? { border: "2.3px solid tomato" } : {}} autoFocus />
                     <label htmlFor="Login-UserEmail">Enter Email</label>
                 </span>
                 <span>
@@ -92,7 +95,7 @@ const LoginComponent = ({ setChangeForm, NavigateTo }) => {
                     <label htmlFor="Login-UserPassword">Enter Password</label>
                 </span>
                 <input type="submit" value="Login" />
-                <p>Forgot Password? <u onClick={() => setChangeForm(4)}>Get help</u></p>
+                <p>Forgot Password? <u onClick={() => NavigateTo("VerifyEmail")}>Get help</u></p>
             </form>
         </div>
     )

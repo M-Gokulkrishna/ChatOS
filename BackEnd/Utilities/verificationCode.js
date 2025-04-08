@@ -5,7 +5,9 @@ const getVerificationCode = async (userEmail) => {
     try {
         await userCredentialModel.findOneAndUpdate({ userEmail }, { $set: { verificationCode } });
         new Promise(async (resolve) => {
-            resolve(await userCredentialModel.findOneAndUpdate({ userEmail }, { $set: { verificationCode: 0 } }));
+            resolve(setTimeout(async() => {
+                await userCredentialModel.findOneAndUpdate({ userEmail }, { $set: { verificationCode: 0 } });
+            }, 1000 * 60 * 2))
         });
         return verificationCode;
     } catch (error) {

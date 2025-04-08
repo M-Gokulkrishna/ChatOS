@@ -1,5 +1,7 @@
 import axios from 'axios';
+import './PasswordResetStyles.css';
 import { toast } from 'react-toastify';
+import { useOutletContext } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useRef, useState } from 'react';
 // CodeVerify InitialState
@@ -15,22 +17,24 @@ const CodeVerify_Initial_State = {
 const CodeVerifyComponent = () => {
     const CodeVerifyInputRef = useRef(null);
     const [InputAutoFocus, setInputAutoFocus] = useState(1);
+    const { NavigateTo, EmailVerifyDetails } = useOutletContext();
     const [InputErrorResponse, setInputErrorResponse] = useState("");
     const [CodeVerifyDetails, setCodeVerifyDetails] = useState(CodeVerify_Initial_State);
     // Api Request for CodeVerify User
     const { mutate: fetchCodeVerify } = useMutation({
         mutationFn: async () => {
             const verificationCode = parseInt(Object.values(CodeVerifyDetails).join(""));
-            const data = await axios.post("http://localhost:8080/api/auth/verifyCode", { verificationCode });
+            const data = await axios.post("http://localhost:8080/api/auth/verifyCode", { userEmail: EmailVerifyDetails.userEmail, verificationCode }, { withCredentials: true });
             return data;
         },
         onSuccess: (CodeVerifyResponse) => {
             if (CodeVerifyResponse?.data?.RequestStatus === "Code Verified Successfully!") {
-                // 
+                NavigateTo("PasswordReset");
             }
         },
         onError: (CodeVerifyErrorResponse) => {
             if (CodeVerifyErrorResponse?.response?.data?.RequestStatus) {
+                NavigateTo("VerifyEmail");
                 setInputErrorResponse("CodeVerification-Input");
                 toast.error(CodeVerifyErrorResponse?.response?.data?.RequestStatus);
             }
@@ -46,7 +50,7 @@ const CodeVerifyComponent = () => {
             return;
         }
         // form Submission, Calling CodeVerify Mutate function
-        // fetchCodeVerify();
+        fetchCodeVerify();
     }
     // handling CodeVerify Inputs
     function handleCodeVerifyInputs(e) {
@@ -67,13 +71,19 @@ const CodeVerifyComponent = () => {
     // 
     return (
         <div className='CodeVerify-Container'>
+            <div className="Auth-Head">
+                <h3>Verification</h3>
+            </div>
+            <button className='Back-to-Previous-Form' onClick={() => NavigateTo("VerifyEmail")}>Back</button>
             <form onSubmit={handleCodeVerifySubmission}>
-                <input type="number" name="digit1" id="CodeVerification-Input" ref={(InputAutoFocus === 1) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} autoFocus />
-                <input type="number" name="digit2" id="CodeVerification-Input" ref={(InputAutoFocus === 2) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
-                <input type="number" name="digit3" id="CodeVerification-Input" ref={(InputAutoFocus === 3) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
-                <input type="number" name="digit4" id="CodeVerification-Input" ref={(InputAutoFocus === 4) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
-                <input type="number" name="digit5" id="CodeVerification-Input" ref={(InputAutoFocus === 5) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
-                <input type="number" name="digit6" id="CodeVerification-Input" ref={(InputAutoFocus === 6) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                <div>
+                    <input type="number" name="digit1" id="CodeVerification-Input" ref={(InputAutoFocus === 1) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} autoFocus />
+                    <input type="number" name="digit2" id="CodeVerification-Input" ref={(InputAutoFocus === 2) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                    <input type="number" name="digit3" id="CodeVerification-Input" ref={(InputAutoFocus === 3) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                    <input type="number" name="digit4" id="CodeVerification-Input" ref={(InputAutoFocus === 4) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                    <input type="number" name="digit5" id="CodeVerification-Input" ref={(InputAutoFocus === 5) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                    <input type="number" name="digit6" id="CodeVerification-Input" ref={(InputAutoFocus === 6) ? CodeVerifyInputRef : null} onChange={handleCodeVerifyInputs} style={(InputErrorResponse === "CodeVerification-Input") ? { border: "2.3px solid tomato" } : {}} />
+                </div>
                 <b>Enter Verification Code</b>
                 <input type="submit" value="Verify" />
             </form>

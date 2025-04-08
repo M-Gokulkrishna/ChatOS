@@ -3,14 +3,11 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { Outlet, useNavigate } from 'react-router-dom';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
-import UtilityToolSet from '../../UtilityComponents/UtilityToolSet/UtilityToolSet';
 import ProfilesComponent from '../../Components/ProfilesComponent/ProfilesComponent';
-import AfterEditProfile from '../../Components/EditProfileComponent/AfterEditProfile';
-import AddFriendComponent from '../../Components/AddFriendComponent/AddFriendComponent';
 import HoneyCombStyledComponent from '../../UtilityComponents/HoneyCombStyledComponent';
 import { FaAlignRight, FaCommentDots, FaHandshake, FaSearch, FaTimes } from 'react-icons/fa';
 import ConversationComponent from '../../Components/ConversationComponent/ConversationComponent';
@@ -21,20 +18,21 @@ const socketIO = io("http://localhost:4000", {
 // 
 const DashBoard = ({ PageWidth, VerifyToken }) => {
     const NavigateTo = useNavigate();
-    const [UtilityTool, setUtilityTool] = useState("");
     const [NavBarClick, setNavBarClick] = useState(false);
     const [SelectedProfile, setSelectedProfile] = useState({});
     const [FilteredProfiles, setFilteredProfiles] = useState({});
     const [userProfileDetails, setUserProfileDetails] = useState({});
-    const [AddFriendTabClick, setAddFriendTabClick] = useState(false);
     const [ConfirmationBoxState, setConfirmationBoxState] = useState({});
-    const [EditProfileTabClick, setEditProfileTabClick] = useState(false);
     const userSessionState = useSelector(state => state.userSessionState);
     const [userFriendsProfileDetails, setUserFriendsProfileDetails] = useState([]);
     // 
     useEffect(() => {
         if (userSessionState?.userSessionStatus === "Access Denied!") {
-            NavigateTo("/AuthPage");
+            if (ConfirmationBoxState.ConfirmationType === "NewAccount") {
+                NavigateTo("/AuthPage/Signup");
+                return;
+            }
+            NavigateTo("/AuthPage/Login");
         }
     }, [userSessionState]);
     // Api Request to get UserProfile Details
@@ -75,11 +73,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
         try {
             const LogoutResponse = await axios.get("http://localhost:8080/api/auth/logout", { withCredentials: true });
             if (LogoutResponse?.data?.RequestStatus === "Logout Successfully!") {
-                NavigateTo("/AuthPage");
-                VerifyToken();
-                if (ConfirmationBoxState.ConfirmationType === "NewAccount") {
-                    // 
-                }
+                VerifyToken();        
             }
         } catch (error) {
             if (error) {
@@ -90,30 +84,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
     // 
     return (
         <div className="DashBoard-Page">
-            {
-                AddFriendTabClick &&
-                <AddFriendComponent setAddFriendTabClick={setAddFriendTabClick} getUserProfileDetails={getUserProfileDetails} />
-            }
-            {
-                EditProfileTabClick &&
-                <AfterEditProfile setEditProfileTabClick={setEditProfileTabClick} setConfirmationBoxState={setConfirmationBoxState} getUserProfileDetails={getUserProfileDetails} userProfileDetails={userProfileDetails} />
-            }
-            {
-                UtilityTool && UtilityTool !== "Disable" &&
-                <UtilityToolSet UtilityTool={UtilityTool} setUtilityTool={setUtilityTool} />
-            }
-            {
-                ConfirmationBoxState.ConfirmationType &&
-                <div className='Confirmation-Container'>
-                    <div>
-                        <strong>{ConfirmationBoxState.ConfimationText}</strong>
-                        <div>
-                            <button style={{ backgroundColor: "tomato" }} onClick={handleLogoutSession}>{ConfirmationBoxState.Button1Text}</button>
-                            <button style={{ backgroundColor: "royalblue" }} onClick={() => setConfirmationBoxState({})}>{ConfirmationBoxState.Button2Text}</button>
-                        </div>
-                    </div>
-                </div>
-            }
+            <Outlet context={{ NavigateTo, getUserProfileDetails, setConfirmationBoxState, userProfileDetails }} />
             <div className='Home-Container' style={(SelectedProfile.chattingState && PageWidth <= 700) ? { zIndex: "1" } : { zIndex: "2" }}>
                 <header>
                     <div className="Section1">
@@ -145,14 +116,14 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
                         <FaTimes />
                     </span>
                     <div>
-                        <b onClick={() => { setEditProfileTabClick(true); setNavBarClick(false) }}>Profile</b>
-                        <b onClick={() => {setUtilityTool("Enable"); setNavBarClick(false)}}>Utilities</b>
+                        <b onClick={() => { NavigateTo("EditProfile"); setNavBarClick(false) }}>Profile</b>
+                        <b onClick={() => { NavigateTo("UtilityToolSet"); setNavBarClick(false) }}>Utilities</b>
                         <b>Settings</b>
                         <b onClick={() => { setConfirmationBoxState({ ConfimationText: "Are you sure to Logout!", ConfirmationType: "Logout", Button1Text: "Ok", Button2Text: "Cancel" }); setNavBarClick(false); }}>Logout</b>
                     </div>
                 </nav>
                 <main>
-                    <span onClick={() => setAddFriendTabClick(true)}>
+                    <span onClick={() => NavigateTo("AddFriends")}>
                         <FaHandshake />
                     </span>
                     <ProfilesComponent FilteredProfiles={FilteredProfiles} setSelectedProfile={setSelectedProfile} />
@@ -160,7 +131,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
             </div>
             {
                 SelectedProfile.chattingState &&
-                <ConversationComponent socketIO={socketIO} PageWidth={PageWidth} SelectedProfile={SelectedProfile} setSelectedProfile={setSelectedProfile} />
+                <ConversationComponent socketIO={socketIO} PageWidth={PageWidth} NavigateTo={NavigateTo} SelectedProfile={SelectedProfile} setSelectedProfile={setSelectedProfile} />
             }
             {
                 (!SelectedProfile.chattingState && PageWidth > 700) &&
@@ -176,6 +147,18 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
                     </main>
                     <div className='HoneyComb-pattern-Container'>
                         <HoneyCombStyledComponent />
+                    </div>
+                </div>
+            }
+            {
+                ConfirmationBoxState.ConfirmationType &&
+                <div className='Confirmation-Container'>
+                    <div>
+                        <strong>{ConfirmationBoxState.ConfimationText}</strong>
+                        <div>
+                            <button style={{ backgroundColor: "tomato" }} onClick={handleLogoutSession}>{ConfirmationBoxState.Button1Text}</button>
+                            <button style={{ backgroundColor: "royalblue" }} onClick={() => setConfirmationBoxState({})}>{ConfirmationBoxState.Button2Text}</button>
+                        </div>
                     </div>
                 </div>
             }

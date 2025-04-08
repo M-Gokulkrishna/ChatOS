@@ -1,9 +1,10 @@
 import axios from 'axios';
 import './BeforeEditProfile.css';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import React, { useEffect, useRef, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import DefaultUser from '../../assets/Images/userProfileDefault.png';
 import { FaBook, FaPlus, FaTimes, FaTrash, FaUpload, FaUser } from 'react-icons/fa';
 import { setUserSessionState, setUserSessionStatus } from '../../ReduxUtilities/userSessionSlice';
@@ -17,6 +18,7 @@ const InitialProfileDetails = {
 // 
 const BeforeEditProfile = () => {
     const AddFriendsInputRef = useRef();
+    const { NavigateTo } = useOutletContext();
     const dispatchUserSessionState = useDispatch();
     const [UploadedFileName, setUploadedFileName] = useState("");
     const [FriendsEmailIDList, setFriendEmailIDList] = useState([]);
@@ -77,6 +79,7 @@ const BeforeEditProfile = () => {
         },
         onSuccess: (ProfileDetailsResponse) => {
             if (ProfileDetailsResponse?.data?.RequestStatus === "ProfileDetials updated Successfully!") {
+                NavigateTo("/DashBoard");
                 dispatchUserSessionState(setUserSessionStatus("Access Granted!"));
                 dispatchUserSessionState(setUserSessionState({ ...ProfileDetailsResponse?.data?.userSessionData }));
             }
