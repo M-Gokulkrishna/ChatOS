@@ -126,12 +126,12 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
                     <span onClick={() => NavigateTo("AddFriends")}>
                         <FaHandshake />
                     </span>
-                    <ProfilesComponent FilteredProfiles={FilteredProfiles} setSelectedProfile={setSelectedProfile} />
+                    <ProfilesComponent FilteredProfiles={FilteredProfiles} SelectedProfile={SelectedProfile} setSelectedProfile={setSelectedProfile} getUserProfileDetails={getUserProfileDetails} />
                 </main>
             </div>
             {
                 SelectedProfile.chattingState &&
-                <ConversationComponent socketIO={socketIO} PageWidth={PageWidth} NavigateTo={NavigateTo} SelectedProfile={SelectedProfile} setSelectedProfile={setSelectedProfile} />
+                <ConversationComponent socketIO={socketIO} PageWidth={PageWidth} NavigateTo={NavigateTo} SelectedProfile={SelectedProfile} setSelectedProfile={setSelectedProfile} getUserProfileDetails={getUserProfileDetails} />
             }
             {
                 (!SelectedProfile.chattingState && PageWidth > 700) &&

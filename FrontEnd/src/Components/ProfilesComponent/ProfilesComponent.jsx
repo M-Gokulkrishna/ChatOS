@@ -2,8 +2,10 @@ import React from 'react';
 import './ProfilesComponent.css';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
 // 
-const ProfilesComponent = React.memo(({ FilteredProfiles: ProfilesList, setSelectedProfile }) => {
-    // 
+const DateInstance = new Date();
+const CurrentDate = DateInstance.getDate().toString().padStart(2, 0) + "-" + (DateInstance.getMonth() + 1).toString().padStart(2, 0) + "-" + DateInstance.getFullYear();
+// 
+const ProfilesComponent = React.memo(({ FilteredProfiles: ProfilesList, setSelectedProfile }) => {    
     function handleProfileClick(ProfileID) {
         const SelectedProfile = ProfilesList.find(eachProfile => eachProfile._id === ProfileID);
         setSelectedProfile({ chattingState: true, ...SelectedProfile });
@@ -24,7 +26,7 @@ const ProfilesComponent = React.memo(({ FilteredProfiles: ProfilesList, setSelec
                         }
                         <b>
                             {eachProfile.profileName}
-                            <p>Last Conversation at:&nbsp; 30-03-2025</p>
+                            <p>Last Conversation at:&nbsp; {(eachProfile.LastSeenDate === CurrentDate) ? eachProfile.LastSeenTime : eachProfile.LastSeenDate }</p>
                         </b>
                     </div>
                 })

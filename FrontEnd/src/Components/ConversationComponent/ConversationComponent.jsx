@@ -14,7 +14,7 @@ function FormatMessageBucket(MessageBucket) {
     });
 }
 // 
-const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, SelectedProfile, setSelectedProfile }) => {
+const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, SelectedProfile, setSelectedProfile, getUserProfileDetails }) => {
     const MessageInputRef = useRef(null);
     const ChattingContainerRef = useRef(null);
     const MessageSelectEventRef = useRef(null);
@@ -47,7 +47,7 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, Sel
     useEffect(() => {
         if (ChattingContainerRef.current) {
             ChattingContainerRef.current.scrollTo({
-                top: ChattingContainerRef.current.offsetHeight,
+                top: ChattingContainerRef.current.scrollHeight,
                 left: 0
             });
         }
@@ -57,6 +57,7 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, Sel
         socketIO.on("MessageFetchResponse", (MessageFetchResponse) => {
             if (MessageFetchResponse === "Message fetched Successfully!") {
                 getStoredMessages();
+                getUserProfileDetails();
             }
         });
         socketIO.on("MessageDeleteResponse", (MessageDeleteResponse) => {
@@ -98,16 +99,16 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, Sel
                         userID: userSessionState.userSessionData.userID,
                         FriendUserID: SelectedProfile._id,
                         MessageDate,
-                        MessagePayload: MessageSessionBucket[1] + "--" + MessageSessionBucket[2]
+                        MessagePayload: MessageSessionBucket
                     }
                 );
-                if (MessageType === "From-Message") {
+                if (MessageType === "Received-Message") {
                     setDeleteMessageFlag({
                         Flag: true,
                         Type: "user"
                     });
                 }
-                if (MessageType === "To-Message") {
+                if (MessageType === "Sent-Message") {
                     setDeleteMessageFlag({
                         Flag: true,
                         Type: "All"
@@ -172,14 +173,14 @@ const ConversationComponent = React.memo(({ socketIO, PageWidth, NavigateTo, Sel
                         <section key={MessageDateBucketIndex} className='Chatting-Section'>
                             <b className='MessageBucket-Date'>{eachMessageDateBucket.MessageBucketDate}</b>
                             {
-                                eachMessageDateBucket?.Messages?.map((eachMessageSession, MessageSessionIndex) => {
-                                    const MessageSessionBucket = eachMessageSession.split("--")
+                                eachMessageDateBucket?.Messages?.map((eachMessages, MessageSessionIndex) => {
+                                    const MessageSessionBucket = eachMessages.split("--")
                                     return (MessageSessionBucket[0] === "Received") ?
-                                        <p className="From-Message" key={MessageSessionIndex} onMouseUp={(e) => handleMessageDeleteEventCapture(e, "From-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onMouseDown={(e) => handleMessageDeleteEventCapture(e, "From-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchStart={(e) => handleMessageDeleteEventCapture(e, "From-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchEnd={(e) => handleMessageDeleteEventCapture(e, "From-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)}>
+                                        <p className="Received-Message" key={MessageSessionIndex} onMouseUp={(e) => handleMessageDeleteEventCapture(e, "Received-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onMouseDown={(e) => handleMessageDeleteEventCapture(e, "Received-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchStart={(e) => handleMessageDeleteEventCapture(e, "Received-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchEnd={(e) => handleMessageDeleteEventCapture(e, "Received-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)}>
                                             <span>{MessageSessionBucket[1]}</span>
                                             <span className='Message-Time'>{MessageSessionBucket[2]}</span>
                                         </p> :
-                                        <p className="To-Message" key={MessageSessionIndex} onMouseUp={(e) => handleMessageDeleteEventCapture(e, "To-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onMouseDown={(e) => handleMessageDeleteEventCapture(e, "To-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchStart={(e) => handleMessageDeleteEventCapture(e, "To-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchEnd={(e) => handleMessageDeleteEventCapture(e, "To-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)}>
+                                        <p className="Sent-Message" key={MessageSessionIndex} onMouseUp={(e) => handleMessageDeleteEventCapture(e, "Sent-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onMouseDown={(e) => handleMessageDeleteEventCapture(e, "Sent-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchStart={(e) => handleMessageDeleteEventCapture(e, "Sent-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)} onTouchEnd={(e) => handleMessageDeleteEventCapture(e, "Sent-Message", eachMessageDateBucket.MessageBucketDate, MessageSessionBucket)}>
                                             <span>{MessageSessionBucket[1]}</span>
                                             <span className='Message-Time'>{MessageSessionBucket[2]}</span>
                                         </p>

@@ -5,10 +5,12 @@ const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 const cookieParser = require('cookie-parser');
-const { fetchMessage } = require('./Utilities/fetchMessage.js');
+// const { fetchMessage } = require('./Utilities/fetchMessage.js');
+// const { deleteMessage } = require('./Utilities/deleteMessage.js');
 const { userAuthRouter } = require('./Routers/userAuthRouter.js');
 const { userDetailsRouter } = require('./Routers/userDetailsRouter.js');
-const { deleteMessage } = require('./Utilities/deleteMessage.js');
+const { handleFetchMessage } = require('./Utilities/handleFetchMessage.js');
+const { handleDeleteMessage } = require('./Utilities/handleDeleteMessage.js');
 require('dotenv').config();
 // MiddleWares Setup
 appServer.use(cors({
@@ -56,7 +58,8 @@ SocketIO.on("connection", (SocketInstance) => {
     SocketInstance.on("sendMessage", (MessageDetails) => {
         const parsedMessageDetails = JSON.parse(MessageDetails);
         (async function () {
-            const MessageFetchResponse = await fetchMessage(parsedMessageDetails);
+            // const MessageFetchResponse = await fetchMessage(parsedMessageDetails);
+            const MessageFetchResponse = await handleFetchMessage(parsedMessageDetails);
             if (MessageFetchResponse === "Message fetched Successfully!") {
                 SocketIO.to(ConnectedUsers.get(parsedMessageDetails.userID)).emit("MessageFetchResponse", MessageFetchResponse);
                 SocketInstance.to(ConnectedUsers.get(parsedMessageDetails.FriendUserID)).emit("MessageFetchResponse", MessageFetchResponse);
@@ -71,7 +74,8 @@ SocketIO.on("connection", (SocketInstance) => {
     SocketInstance.on("deleteMessage", (MessageDetails) => {
         const parsedMessageDetails = JSON.parse(MessageDetails);
         (async function () {
-            const MessageDeleteResponse = await deleteMessage(parsedMessageDetails);
+            // const MessageDeleteResponse = await deleteMessage(parsedMessageDetails);
+            const MessageDeleteResponse = await handleDeleteMessage(parsedMessageDetails);
             if (MessageDeleteResponse === "Message Deleted Successfully for user!") {
                 SocketIO.to(ConnectedUsers.get(parsedMessageDetails.userID)).emit("MessageDeleteResponse", MessageDeleteResponse);
             }

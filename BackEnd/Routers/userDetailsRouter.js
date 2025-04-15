@@ -184,8 +184,19 @@ userDetailsRouter.post('/getUserProfileDetails', async (request, response) => {
         const getUserProfileDetails = JSON.parse(JSON.stringify(await userCredentialModel.findById({ _id: userID }).select(["-_id", "profileName", "profileDescription", "profileImageFile", "FriendsList"])));
         if (!getUserProfileDetails) return response.status(404).json({ RequestStatus: "User Not Exist!" });
         const { FriendsList, ...privateDetails } = getUserProfileDetails;
-        const UserFriendsProfileDetails = JSON.parse(JSON.stringify(await userCredentialModel.find({ userEmail: { $in: [...FriendsList] } }).select(["_id", "profileName", "profileDescription", "profileImageFile"])));
-        return response.status(200).json({ RequestStatus: "userProfile details fetched Successfully!", userProfileDetails: JSON.stringify(privateDetails), userFriendsProfileDetails: JSON.stringify(UserFriendsProfileDetails) });
+        const UserFriendsProfileDetails = await Promise.all(FriendsList.map(async(eachFriend) => {
+            return JSON.parse(JSON.stringify(await userCredentialModel.findOne({ userEmail: eachFriend }).select(["_id", "profileName", "profileDescription", "profileImageFile"])));
+        }));
+        const UserFriendsSessionDetails = JSON.parse(JSON.stringify((await userConversationModel.findOne({ userID }, { _id: 0, FriendsList: 1 })).FriendsList));
+        const ResultantFriendsDetails = await Promise.all(UserFriendsProfileDetails.map(async(eachFriend) => {
+            const getEachFriendSession = UserFriendsSessionDetails.find((eachFriendSession) => eachFriendSession.FriendUserID === eachFriend._id);
+            return {
+                ...eachFriend,
+                LastSeenDate: getEachFriendSession.LastSeenDate,
+                LastSeenTime: getEachFriendSession.LastSeenTime
+            }
+        }));
+        return response.status(200).json({ RequestStatus: "userProfile details fetched Successfully!", userProfileDetails: JSON.stringify(privateDetails), userFriendsProfileDetails: JSON.stringify(ResultantFriendsDetails) });
     } catch (error) {
         if (error) {
             return response.status(400).json({ RequestStatus: "Error while fetching ProfileDetails!" });
