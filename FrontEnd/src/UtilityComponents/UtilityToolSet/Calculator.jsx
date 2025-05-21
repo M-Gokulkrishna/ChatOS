@@ -1,4 +1,4 @@
-import './Calculator.css';
+import './UtilityToolSet.css';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { FaBackspace } from 'react-icons/fa';
@@ -30,7 +30,6 @@ const Calculator = () => {
 	// 
 	return (
 		<div className='Calculator-Container'>
-			<b>Calculator</b>
 			<button className='Dispatch-Btn'>Dispatch</button>
 			<p>{CalculationString}</p>
 			<div className="Calculator-Btns-Container">

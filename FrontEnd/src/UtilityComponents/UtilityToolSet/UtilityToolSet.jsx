@@ -1,10 +1,14 @@
-
 import './UtilityToolSet.css';
+import BMICalc from './BMICalc';
+import AreaCalc from './AreaCalc';
+import LengthCalc from './LengthCalc';
+import Calculator from './Calculator';
+import VolumeCalc from './VolumeCalc';
 import React, { useState } from 'react';
-import NotesTool from '../Notes/NotesTool';
-import Calculator from '../Calculator/Calculator';
+import CurrencyCalc from './CurrencyCalc';
+import TemperatureCalc from './TemperatureCalc';
 import { useOutletContext } from 'react-router-dom';
-import { FaBorderStyle, FaCalculator, FaCube, FaDollarSign, FaEdit, FaRuler, FaThermometerHalf, FaTimes, FaWeight } from 'react-icons/fa';
+import { FaArrowLeft, FaBorderStyle, FaCalculator, FaCloudSunRain, FaCube, FaDollarSign, FaEdit, FaRuler, FaThermometerHalf, FaTimes, FaWeight } from 'react-icons/fa';
 
 // 
 const UtilityNavbar = React.memo(() => {
@@ -16,6 +20,12 @@ const UtilityNavbar = React.memo(() => {
                 <FaTimes />
             </span>
             {
+                UtilityTool &&
+                <span onClick={() => setUtilityTool("")}>
+                    <FaArrowLeft />
+                </span>
+            }
+            {
                 !UtilityTool &&
                 <section>
                     <div onClick={() => setUtilityTool("Calculator")}>
@@ -24,46 +34,46 @@ const UtilityNavbar = React.memo(() => {
                             Calculator
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("Notes")}>
-                        <FaEdit />
-                        <b>
-                            Notes
-                        </b>
-                    </div>
-                    <div onClick={() => setUtilityTool("Currency")}>
+                    <div onClick={() => setUtilityTool("CurrencyCalc")}>
                         <FaDollarSign />
                         <b>
                             Currency
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("BMI")}>
+                    <div onClick={() => setUtilityTool("BMICalc")}>
                         <FaWeight />
                         <b>
                             BMI
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("Temperature")}>
+                    <div onClick={() => setUtilityTool("TemperatureCalc")}>
                         <FaThermometerHalf />
                         <b>
                             Temperature
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("Length")}>
+                    <div onClick={() => setUtilityTool("LengthCalc")}>
                         <FaRuler />
                         <b>
                             Length
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("Volume")}>
+                    <div onClick={() => setUtilityTool("AreaCalc")}>
+                        <FaBorderStyle />
+                        <b>
+                            Area
+                        </b>
+                    </div>
+                    <div onClick={() => setUtilityTool("VolumeCalc")}>
                         <FaCube />
                         <b>
                             Volume
                         </b>
                     </div>
-                    <div onClick={() => setUtilityTool("Area")}>
-                        <FaBorderStyle />
+                    <div onClick={() => setUtilityTool("Weather")}>
+                        <FaCloudSunRain />
                         <b>
-                            Area
+                            Weather
                         </b>
                     </div>
                 </section>
@@ -73,12 +83,32 @@ const UtilityNavbar = React.memo(() => {
                 <Calculator />
             }
             {
-                UtilityTool === "Notes" &&
-                <NotesTool />
+                UtilityTool === "CurrencyCalc" &&
+                <CurrencyCalc />
             }
             {
-                UtilityTool === "Currency" &&
-                <NotesTool />
+                UtilityTool === "BMICalc" &&
+                <BMICalc />
+            }
+            {
+                UtilityTool === "TemperatureCalc" &&
+                <TemperatureCalc />
+            }
+            {
+                UtilityTool === "LengthCalc" &&
+                <LengthCalc />
+            }
+            {
+                UtilityTool === "AreaCalc" &&
+                <AreaCalc />
+            }
+            {
+                UtilityTool === "VolumeCalc" &&
+                <VolumeCalc />
+            }
+            {
+                UtilityTool === "Weather" &&
+                <TemperatureCalc />
             }
         </div>
     )

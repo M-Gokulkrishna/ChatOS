@@ -56,3 +56,414 @@
         }
     }
 }
+/* Calculator styles */
+.Calculator-Container {
+    display: flex;
+    width: 100%;
+    padding-top: 25px;
+    border-radius: 12px;
+    align-items: center;
+    padding-bottom: 14px;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 5px aliceblue;
+    background-color: rgba(0, 0, 40, 0.9);
+
+    .Dispatch-Btn{
+        position: absolute;
+        cursor: pointer;
+        z-index: 10;
+        top: 5px;
+        right: 14px;
+        border: none;
+        font-size: 14px;
+        padding: 6px 8px;
+        font-weight: bold;
+        color: aliceblue;
+        border-radius: 4px;
+        background-color: rgba(255, 68, 0, 0.8);
+    }
+
+    p {
+        text-align: end;
+        width: 80%;
+        max-height: 70px;
+        min-height: 20px;
+        font-weight: bold;
+        padding: 24px 10px;
+        border-radius: 6px;
+        border-left: 6px solid springgreen;
+        border-right: 6px solid springgreen;
+        background-color: rgba(255, 255, 255, 0.96);
+    }
+    
+    .Calculator-Btns-Container {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(4, 1fr);
+        
+        button {
+            cursor: pointer;
+            display: flex;
+            width: 56px;
+            height: 35px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid springgreen;
+            border-right: 4px solid springgreen;
+            background-color: rgba(255, 255, 255, 0.96);
+
+            u {
+                display: flex;
+                margin: auto;
+                font-size: 24px;
+            }
+        }
+    }
+}
+/* CurrencyCalc Styles */
+.CurrencyCalc-Container {
+    display: flex;
+    width: 100%;
+    height: 280px;
+    row-gap: 10px;
+    border-radius: 12px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px solid wheat;
+    background-color: aliceblue;
+
+    .DropDownLabels{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .dropDown-Container {
+        display: flex;
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        justify-content: space-around;
+
+        select {
+            cursor: pointer;
+            width: 100px;
+            height: 34px;
+            border: 2px solid;
+            font-weight: bold;
+            border-radius: 6px;
+            border-left: 4px solid;
+            border-right: 4px solid;
+            padding-inline-start: 5px;
+            color: rgba(10, 10, 100, 0.95);
+            background-color: rgba(255, 0, 100, 0.2);
+
+            option {
+                color: aliceblue;
+                background-color: rgba(10, 10, 60, 0.95);
+            }
+        }
+    }
+
+    .CurrencyCalc-Input-Section {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+        align-items: center;
+        flex-direction: column;
+
+        label {
+            letter-spacing: 0.2px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 175px;
+            height: 30px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            text-indent: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 2px solid rgba(128, 128, 128, 0.7);
+            background-color: rgba(200, 200, 250, 0.5);
+        }
+
+        input::placeholder{
+            font-size: 14px;
+        }
+    }
+
+    strong {
+        display: flex;
+        height: 36px;
+        width: 152px;
+        border-radius:4px;
+        color: aliceblue;
+        align-items: center;
+        padding-inline: 15px;
+        justify-content: center;
+        background-color: rgba(10, 10, 60, 0.95);
+    }
+
+    .Calc-Currency-Btn{
+        cursor: pointer;
+        width: 182px;
+        height: 38px;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 4px;
+        border-left: 4px solid;
+        border-right: 4px solid;
+        color: rgba(10, 10, 60, 0.95);
+        background-color: springgreen;
+    }
+}
+/* BMICalculator styles */
+.BMICalc-Container {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    row-gap: 14px;
+    border-radius: 12px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px solid wheat;
+    background-color: aliceblue;
+
+    b {
+        font-size: 18px;
+        letter-spacing: 0.8px;
+        color: rgba(10, 10, 60, 0.95);
+    }
+
+    input {
+        width: 180px;
+        height: 30px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-indent: 10px;
+        border-radius: 4px;
+        border: 2px solid rgba(128, 128, 128, 0.5);
+        background-color: rgba(200, 200, 250, 0.5);
+    }
+
+    strong {
+        display: flex;
+        height: 34px;
+        width: 180px;
+        border-radius: 4px;
+        color: aliceblue;
+        border-radius: 4px;
+        padding-inline: 4px;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(10, 10, 60, 0.95);
+    }
+
+    button {
+        cursor: pointer;
+        width: 188px;
+        height: 38px;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 4px;
+        border-left: 4px solid;
+        border-right: 4px solid;
+        color: rgba(10, 10, 60, 0.95);
+        background-color: springgreen;
+    }
+}
+/* Temperature Calculator styles */
+.TemperatureCalc-Container {
+    display: flex;
+    width: 100%;
+    height: 280px;
+    row-gap: 12px;
+    align-items: center;
+    border-radius: 12px;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px solid wheat;
+    background-color: aliceblue;
+
+    b {
+        font-size: 18px;;
+        letter-spacing: 0.4px;
+        color: rgba(10, 10, 60, 0.95)
+    }
+
+    .Options-Selector {
+        display: flex;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        margin-bottom: 15px;
+        justify-content: space-evenly;
+
+        select {
+            display: flex;
+            width: 100px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            border: 2px solid;
+            border-radius: 3px;
+            text-align: center;
+            border-left: 4px solid;
+            border-right: 4px solid;
+            background-color: rgba(255, 0, 100, 0.2);
+        }
+
+        option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    }
+
+    input::placeholder {
+        font-weight: bold;
+    }
+
+    input {
+        width: 126px;
+        height: 28px;
+        outline: none;
+        font-size: 14px;
+        text-indent: 5px;
+        padding-top: 2px;
+        border: 2px solid;
+        border-radius: 3px;
+        border-left: 4px solid;
+        border-right: 4px solid;
+        background-color: rgba(200, 200, 250, 0.5);
+    }
+
+    strong {
+        display: flex;
+        width: 138px;
+        height: 34px;
+        border-radius: 4px;
+        color: aliceblue;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(10, 10, 80, 0.9);
+    }
+
+    button {
+        position: relative;
+        cursor: pointer;
+        width: 140px;
+        height: 32px;
+        border: none;
+        bottom: -12px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 4px;
+        border-left: 4px solid;
+        border-right: 4px solid;
+        color: rgba(10, 10, 60, 0.95);
+        background-color: springgreen;
+    }
+}
+/* Length Calculator Styles */
+.LengthCalc-Container {
+    display: flex;
+    width: 100%;
+    height: 280px;
+    row-gap: 10px;
+    align-items: center;
+    border-radius: 12px;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px solid wheat;
+    background-color: aliceblue;
+
+    b {
+        font-size: 18px;;
+        letter-spacing: 0.4px;
+        color: rgba(10, 10, 60, 0.95)
+    }
+
+    .Length-Selectors {
+        display: flex;
+        height: auto;
+        width: max-content;
+        align-items: center;
+        justify-content: space-around;
+
+        div {
+            display: flex;
+            width: auto;
+            gap: 2px;
+            padding: 10px;
+            flex-direction: column;
+
+            input::placeholder {
+                font-weight: bold;
+            }
+
+            input {
+                width: 100px;
+                height: 28px;
+                outline: none;
+                font-size: 14px;
+                text-indent: 5px;
+                padding-top: 2px;
+                border: 2px solid;
+                border-radius: 3px;
+                border-left: 4px solid;
+                border-right: 4px solid;
+                background-color: rgba(200, 200, 250, 0.6);
+            }
+
+            select {
+                display: flex;
+                width: 100%;
+                height: 32px;
+                cursor: pointer;
+                font-size: 15px;
+                font-weight: bold;
+                border: 2px solid;
+                border-radius: 3px;
+                text-align: center;
+                border-left: 4px solid;
+                border-right: 4px solid;
+                background-color: rgba(255, 0, 100, 0.2);
+            }
+        }
+    }
+
+    button {
+        cursor: pointer;
+        width: 188px;
+        height: 38px;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+        border-radius: 4px;
+        border-left: 4px solid;
+        border-right: 4px solid;
+        color: rgba(10, 10, 60, 0.95);
+        background-color: springgreen;
+    }
+}

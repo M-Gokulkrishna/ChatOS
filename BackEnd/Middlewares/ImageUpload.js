@@ -7,7 +7,7 @@ const storageInstance = multer.diskStorage({
         const DateInstance = new Date();
         const currentDate = DateInstance.getDate().toString().padStart(2, 0) + "-" + (DateInstance.getMonth() + 1).toString().padStart(2, 0) + "-" + DateInstance.getFullYear();
         const currentTime = (DateInstance.getHours() % 12 || 12).toString().padStart(2, 0) + "-" + DateInstance.getMinutes().toString().padStart(2, 0) + "-" + DateInstance.getSeconds().toString().padStart(2, 0) + "-" + DateInstance.getMilliseconds().toString().padStart(4, 0);
-        cb(null, "ProfileImage-" + currentDate + "-" +currentTime + path.extname(file.originalname));
+        cb(null, "ProfileImage-" + currentDate + "-" + currentTime + path.extname(file.originalname));
     }
 });
 // Multer Config

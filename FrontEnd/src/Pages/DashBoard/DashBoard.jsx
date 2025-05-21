@@ -3,7 +3,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Outlet, useNavigate } from 'react-router-dom';
 import DefaultUserPic from '../../assets/Images/userProfileDefault.png';
@@ -64,7 +64,7 @@ const DashBoard = ({ PageWidth, VerifyToken }) => {
     function handleSearchInput(e) {
         setFilteredProfiles(
             userFriendsProfileDetails.filter((data) =>
-                String(data.profileName).includes(e.target.value.toLowerCase())
+                String(data.profileName.toLowerCase()).includes(e.target.value.toLowerCase())
             )
         );
     }
